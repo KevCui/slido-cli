@@ -38,7 +38,7 @@ Usage:
 ~$ node fetch-slido-token.js '<slido_question_url>'
 ```
 
-For example, **GoT Last Season** Slido event:
+For example, get user auth token of **GoT Last Season** Slido event:
 
 ```
 ~$ node fetch-slido-token.js 'https://app.sli.do/event/9duokmyd/live/questions'
@@ -56,7 +56,7 @@ This script can show the list of question of one specific Slido event.
 
 ```
 Usage:
-  ./show-questionlist.sh -i <event_id> -t <auth_token> [-n <nb_of_questions> -o [top|newest]]
+  ./show-questionlist.sh -i <event_uuid> -t <auth_token> [-n <nb_of_questions> -o [top|newest]]
 
 Options:
   -i             Event uuid
@@ -107,7 +107,7 @@ This script can vote or revoke vote of a specific question.
 
 ```
 Usage:
-  ./vote_question.sh -i <event_id> -t <auth_token> -q <question_id> [-r]
+  ./vote_question.sh -i <event_uuid> -t <auth_token> -q <question_id> [-r]
 
 Options:
   -i             Event uuid
@@ -147,11 +147,11 @@ Generate 20 tokens and save them in `auth.conf` file:
 #### Get question id
 
 ```
-~$ ./show-questionlist.sh -i <event_id> -t <auth_token> | grep -B 3 -i <question_text> | grep event_question_id
+~$ ./show-questionlist.sh -i <event_uuid> -t <auth_token> | grep -B 3 -i <question_text> | grep event_question_id
 ```
 
 #### Massive voting
 
 ```
-~$ while IFS='' read -r line || [[ -n "$line" ]]; do ./vote-question.sh -i <event_id> -t "${line#*,}" -q <question_id>; done < auth.conf
+~$ while IFS='' read -r line || [[ -n "$line" ]]; do ./vote-question.sh -i <event_uuid> -t "${line#*,}" -q <question_id>; done < auth.conf
 ```
