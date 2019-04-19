@@ -5,12 +5,12 @@
 #/ Usage:
 #/   ./show-questionlist.sh -i <event_id> -t <auth_token> [-n <nb_of_questions> -o [top|newest]]
 #/
-#/ Options
-#/   -i:            Event uuid
-#/   -t:            User auth token
-#/   -n:            (optional) List max. number of questions, default value: 30
-#/   -o:            (optional) Sort by "top" or "newest", default value: top
-#/   -h --help:     Display this help message
+#/ Options:
+#/   -i             Event uuid
+#/   -t             User auth token
+#/   -n             (optional) List max. number of questions, default value: 30
+#/   -o             (optional) Sort by "top" or "newest", default value: top
+#/   -h, --help     Display this help message
 
 usage() {
     # Display usage message

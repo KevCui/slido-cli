@@ -5,12 +5,12 @@
 #/ Usage:
 #/   ./vote_question.sh -i <event_id> -t <auth_token> -q <question_id> [-r]
 #/
-#/ Options
-#/   -i:            Event uuid
-#/   -t:            User auth token
-#/   -q:            Question id
-#/   -r:            (optional) Revoke vote
-#/   -h --help:     Display this help message
+#/ Options:
+#/   -i             Event uuid
+#/   -t             User auth token
+#/   -q             Question id
+#/   -r             (optional) Revoke vote
+#/   -h, --help     Display this help message
 
 usage() {
     # Display usage message
