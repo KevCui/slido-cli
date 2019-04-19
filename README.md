@@ -129,11 +129,11 @@ If you want to revoke your vote, same command plus `-r`:
 ~$ ./vote-question.sh -i '4c349204-385b-49a7-a130-f91a2e243e49' -t '5910aa95f67be997fd5448373263ee78352c0db8' -q 8316368 -r
 ```
 
-Attention: the scores in response data from vote-question.sh are not accurate. Because they're delayed from Slido server. The get the correct scores, run command show-questionlist.sh.
+:warning: The scores in response data from vote-question.sh are not accurate. Because they're delayed from Slido server. To get the correct scores, use command `show-questionlist.sh`.
 
-### To be, or not to be Evil?
+### To be, or not to be Evil? :performing_arts:
 
-Slido doesn't limit ID address, it's possible to get as many tokens as possible on one machine. This makes multiple-times-vote easier. The workflow as below.
+Slido doesn't limit ID address for voting of a public event. So, it's possible to get as many tokens as possible on one machine. This makes multiple-times-vote easier. The workflow is described as below.
 
 
 #### Generate tokens
@@ -150,7 +150,7 @@ Generate 20 tokens and save them in `auth.conf` file:
 ~$ ./show-questionlist.sh -i <event_uuid> -t <auth_token> | grep -B 3 -i <question_text> | grep event_question_id
 ```
 
-#### Massive voting
+#### Massive voting: +20 likes
 
 ```
 ~$ while IFS='' read -r line || [[ -n "$line" ]]; do ./vote-question.sh -i <event_uuid> -t "${line#*,}" -q <question_id>; done < auth.conf
