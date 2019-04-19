@@ -15,7 +15,7 @@ const puppeteer = require('puppeteer');
 
   let cookie = await page.cookies();
   let token = cookie.filter(c => c['name'] === 'Slido.EventAuthTokens');
-  console.log(token[0]['value']);
+  console.log(token[0]['value'].replace(/\"/g, ''));
 
   await browser.close();
 })();
