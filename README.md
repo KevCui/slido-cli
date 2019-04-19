@@ -25,6 +25,12 @@ npm i puppeteer
 
 #### fetch-slido-token
 
+First, change chrome app path in the script:
+
+```
+const chrome = '<path_to_your_chrome_browser>'
+```
+
 This script can fetch event uuid and user auth token of a Slido event.
 
 ```
