@@ -35,7 +35,7 @@ This script can fetch event uuid and user auth token of a Slido event.
 
 ```
 Usage:
-~$ node fetch-slido-token.js '<slido_question_url>'
+~$ node fetch-slido-token.js '<slido_question_list_url>'
 ```
 
 For example, get user auth token of **GoT Last Season** Slido event:
@@ -133,8 +133,7 @@ If you want to revoke your vote, same command plus `-r`:
 
 ### To be, or not to be Evil? :performing_arts:
 
-Slido doesn't limit ID address for generating user token. Technically, it's possible to get as many tokens as possible on one machine. And 1 token means 1 vote. Therefore, this makes vote-result-manipulation easier. The workflow is described as below. Free feel to write a script and put all these steps together.
-
+Slido doesn't limit IP address for generating user token. Technically, it's possible to get as many tokens as possible on one machine. And 1 token means 1 vote. Therefore, this makes vote result manipulation easier. The workflow is described as below.
 
 #### Generate tokens
 
