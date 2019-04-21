@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# This script will vote a slido queston
+# Upvote a slido queston
 #
 #/ Usage:
 #/   ./vote_question.sh -i <event_uuid> -t <auth_token> -q <question_id> [-r]

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# This script will show the list of questons of a specific Slido event
+# Show the list of questons of a specific Slido event
 #
 #/ Usage:
 #/   ./show-questionlist.sh -i <event_uuid> -t <auth_token> [-n <nb_of_questions> -o [top|newest]]
