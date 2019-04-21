@@ -30,7 +30,7 @@ set_var() {
 get_args() {
     # Declare arguments
     expr "$*" : ".*--help" > /dev/null && usage
-    while getopts ":ri:t:q:" opt; do
+    while getopts ":hri:t:q:" opt; do
         case $opt in
             i)
                 _EVENT_UUID="$OPTARG"
