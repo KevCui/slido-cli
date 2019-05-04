@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer');
 
   const browser = await puppeteer.launch({executablePath: chrome, headless: isheadless});
   const page = await browser.newPage();
-  await page.goto(url, {timeout: 60000, waitUntil: 'domcontentloaded'});
+  await page.goto(url, {timeout: 10000, waitUntil: 'domcontentloaded'});
   await page.waitFor(questionlist);
   await page.click(privacybtn);
 

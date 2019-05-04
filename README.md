@@ -15,7 +15,7 @@ A CLI toolbox to fetch [Slido](https://www.sli.do/) questions, vote for a questi
 - Install Puppeteer
 
 ```
-npm i puppeteer
+npm i puppeteer --ignore-scripts
 ```
 
 - Install jq: [link](https://stedolan.github.io/jq/download/)
