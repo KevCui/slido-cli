@@ -152,5 +152,9 @@ Generate 20 tokens and save them in `auth.conf` file:
 #### Massive voting: +20 likes
 
 ```
-~$ while IFS='' read -r line || [[ -n "$line" ]]; do ./vote-question.sh -i <event_uuid> -t "${line#*,}" -q <question_id>; done < auth.conf
+~$ while IFS='' read -r line || [[ -n "$line" ]]; do ./vote-question.sh -i "${line%,*}" -t "${line##*,}" -q <question_id>; done < auth.conf
 ```
+
+#### One more thing?
+
+Btw, script for lazy human: `bot-vote.sh`.
