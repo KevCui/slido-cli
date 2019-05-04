@@ -36,8 +36,12 @@ main() {
     done
 
     while IFS='' read -r line || [[ -n "$line" ]]; do
-        $_VOTE -i "${line%,*}" -t "${line##*,}" -q "$id"
+        $_VOTE -i "$uuid" -t "${line##*,}" -q "$id"
     done < "$file"
+
+    printf "\n\n"
+    echo "Revoke vote(s)? Run command below:"
+    echo "while IFS='' read -r line || [[ -n \"\$line\" ]]; do $_VOTE -i $uuid -t \"\${line##*,}\" -q $id -r; done < $file"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
