@@ -29,7 +29,7 @@ main() {
     $_SHOW -i "$uuid" -t "$token" | grep -E "(question_id|text)"
     read -rp "Question id: " id
 
-    read -rp "How many vote: " num
+    read -rp "Number of vote(s): " num
     file="./.tmp.$(date +%s)"
     for ((i = 0; i < "$num"; i++)); do
         $_NODE "$_FETCH" "$url" >> "$file" && echo "Fetched token $((i+1))"
