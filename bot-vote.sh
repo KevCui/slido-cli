@@ -56,7 +56,7 @@ main() {
     event=$(get_event_from_url "$url")
 
     # ask for question id
-    $_SHOW -i "$uuid" -t "$token" | grep -E "(question_id|text)"
+    $_SHOW -i "$uuid" -t "$token" | grep -E "(question_id|text|score_positive)"
     read -rp "Question id: " id
 
     # ask for number of votes
