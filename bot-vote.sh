@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set_var() {
+    # Set global variables
     _FETCH="./fetch-slido-token.js"
     _SHOW="./show-questionlist.sh"
     _VOTE="./vote-question.sh"
@@ -41,15 +42,18 @@ check_file() {
 }
 
 get_event_from_url() {
+    # Get slido event number from URL
     echo "$1" | sed -e 's/.*event\///;s/\/live.*$//'
 }
 
 get_token_num() {
+    # Get current token number
     [[ ! -f "$1" ]] && touch "$1"
     wc -l < "$1"
 }
 
 tail_last_line() {
+    # Get last n lines of token
     local file, num
     file=$(get_event_from_url "$1")
     num=$(get_token_num "$file")
@@ -60,19 +64,21 @@ tail_last_line() {
 }
 
 get_uuid(){
+    # Get UUID
     local line
     line=$(tail_last_line "$1")
     echo "${line%,*}"
 }
 
 get_last_token() {
+    # Get last token
     local line
     line=$(tail_last_line "$1")
     echo "${line##*,}"
 }
 
 ask_for_url() {
-    # ask for slido question URL
+    # Ask for slido question URL
     local url
     if [[ -z "$1" ]]; then
         read -rp "Slido event URL: " url
@@ -84,20 +90,20 @@ ask_for_url() {
 }
 
 ask_for_question_id() {
-    # ask for question id
+    # Ask for question id
     $_SHOW -i "$_UUID" -t "$_TOKEN" | grep -E "(question_id|text|score_positive)" >&2
     read -rp "Question id: " id
     echo "$id"
 }
 
 ask_for_number_of_votes() {
-    # ask for number of votes
+    # Ask for number of votes
     read -rp "Number of vote(s): " num
 
     local currnum
     currnum=$(get_token_num "$_EVENT")
 
-    # fetch tokens to meet required num
+    # Fetch tokens to meet required num
     if [[ "$num" -gt "$currnum" ]]; then
         for ((i = 0; i < "$((num-currnum))"; i++)); do
             echo "Fetching token $((i+1))"
@@ -109,12 +115,12 @@ ask_for_number_of_votes() {
 }
 
 prepare_session() {
-    # generate session file with num of tokens
+    # Generate session file with num of tokens
     tail -n "$1" "$_EVENT" > "$_SESSION"
 }
 
 vote() {
-    # vote for qustions
+    # Vote for qustions
     echo "Ready to vote $(get_token_num "$2") times..."
     while IFS='' read -r line || [[ -n "$line" ]]; do
         $_VOTE -i "$_UUID" -t "${line##*,}" -q "$1" >&2
@@ -122,7 +128,7 @@ vote() {
 }
 
 print_revoke_command() {
-    # print revoke command
+    # Print revoke command
     printf "\n\n"
     echo "Revoke vote(s)? Run command below:"
     echo "while IFS='' read -r line || [[ -n \"\$line\" ]]; do $_VOTE -i $_UUID -t \"\${line##*,}\" -q $id -r; done < $_SESSION"
