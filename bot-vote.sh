@@ -46,26 +46,29 @@ get_event_from_url() {
 
 get_token_num() {
     [[ ! -f "$1" ]] && touch "$1"
-    wc -l < $1
+    wc -l < "$1"
 }
 
 tail_last_line() {
-    local file=$(get_event_from_url "$1")
-    local num=$(get_token_num "$file")
+    local file, num
+    file=$(get_event_from_url "$1")
+    num=$(get_token_num "$file")
     if [[ "$num" -eq 0 ]]; then
-       $_NODE "$_FETCH" "$1" > $file
+       $_NODE "$_FETCH" "$1" > "$file"
     fi
     tail -1 "$file"
 }
 
 get_uuid(){
-    local line=$(tail_last_line "$1")
-    echo ${line%,*}
+    local line
+    line=$(tail_last_line "$1")
+    echo "${line%,*}"
 }
 
 get_last_token() {
-    local line=$(tail_last_line "$1")
-    echo ${line##*,}
+    local line
+    line=$(tail_last_line "$1")
+    echo "${line##*,}"
 }
 
 ask_for_url() {
