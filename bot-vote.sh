@@ -4,11 +4,32 @@ set_var() {
     _FETCH="./fetch-slido-token.js"
     _SHOW="./show-questionlist.sh"
     _VOTE="./vote-question.sh"
+    _SESSION="./.tmp.$(date +%s)"
     _NODE=$(command -v node)
 
     check_file "$_FETCH"
     check_file "$_SHOW"
     check_file "$_VOTE"
+    check_command "$_NODE" "node"
+
+    _URL=$(ask_for_url "$1")
+    _UUID=$(get_uuid "$_URL")
+    _TOKEN=$(get_last_token "$_URL")
+    _EVENT=$(get_event_from_url "$_URL")
+}
+
+check_command() {
+    # Check if required command exists
+    if [[ ! "$1" ]]; then
+        echo "$2 command dosen't exist!" && exit 1
+    fi
+}
+
+check_url() {
+    # Check if $1 is a valid slido URL or not
+    if [[ "$1" != *"app.sli.do/event/"*"/live/questions"* ]]; then
+        echo "Wrong Sli.do URL. Correct format should be: https://app.sli.do/event/<id>/live/questions" && exit 1
+    fi
 }
 
 check_file() {
@@ -47,43 +68,70 @@ get_last_token() {
     echo ${line##*,}
 }
 
-main() {
-    set_var
+ask_for_url() {
+    # ask for slido question URL
+    local url
+    if [[ -z "$1" ]]; then
+        read -rp "Slido event URL: " url
+    else
+        url="$1"
+    fi
+    check_url "$url"
+    echo "$url"
+}
 
-    read -rp "Slido event URL: " url
-    uuid=$(get_uuid "$url")
-    token=$(get_last_token "$url")
-    event=$(get_event_from_url "$url")
-
+ask_for_question_id() {
     # ask for question id
-    $_SHOW -i "$uuid" -t "$token" | grep -E "(question_id|text|score_positive)"
+    $_SHOW -i "$_UUID" -t "$_TOKEN" | grep -E "(question_id|text|score_positive)" >&2
     read -rp "Question id: " id
+    echo "$id"
+}
 
+ask_for_number_of_votes() {
     # ask for number of votes
     read -rp "Number of vote(s): " num
-    currnum=$(get_token_num "$event")
+
+    local currnum
+    currnum=$(get_token_num "$_EVENT")
 
     # fetch tokens to meet required num
     if [[ "$num" -gt "$currnum" ]]; then
         for ((i = 0; i < "$((num-currnum))"; i++)); do
             echo "Fetching token $((i+1))"
-            $_NODE "$_FETCH" "$url" >> "$event"
+            $_NODE "$_FETCH" "$_URL" >> "$_EVENT"
         done
     fi
 
+    echo "$num"
+}
+
+prepare_session() {
     # generate session file with num of tokens
-    session="./.tmp.$(date +%s)"
-    tail -n "$num" "$event" > $session
+    tail -n "$1" "$_EVENT" > "$_SESSION"
+}
 
-    echo "Ready to vote $(get_token_num "$session") times..."
+vote() {
+    # vote for qustions
+    echo "Ready to vote $(get_token_num "$2") times..."
     while IFS='' read -r line || [[ -n "$line" ]]; do
-        $_VOTE -i "$uuid" -t "${line##*,}" -q "$id"
-    done < "$session"
+        $_VOTE -i "$_UUID" -t "${line##*,}" -q "$1" >&2
+    done < "$2"
+}
 
+print_revoke_command() {
     # print revoke command
     printf "\n\n"
     echo "Revoke vote(s)? Run command below:"
-    echo "while IFS='' read -r line || [[ -n \"\$line\" ]]; do $_VOTE -i $uuid -t \"\${line##*,}\" -q $id -r; done < $session"
+    echo "while IFS='' read -r line || [[ -n \"\$line\" ]]; do $_VOTE -i $_UUID -t \"\${line##*,}\" -q $id -r; done < $_SESSION"
+}
+
+main() {
+    set_var "$@"
+    id=$(ask_for_question_id)
+    num=$(ask_for_number_of_votes)
+    prepare_session "$num"
+    vote "$id" "$_SESSION"
+    print_revoke_command
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
