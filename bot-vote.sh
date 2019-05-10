@@ -54,7 +54,8 @@ get_token_num() {
 
 tail_last_line() {
     # Get last n lines of token
-    local file, num
+    local file
+    local num
     file=$(get_event_from_url "$1")
     num=$(get_token_num "$file")
     if [[ "$num" -eq 0 ]]; then
