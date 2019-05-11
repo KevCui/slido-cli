@@ -92,7 +92,7 @@ ask_for_url() {
 
 ask_for_question_id() {
     # Ask for question id
-    $_SHOW -i "$_UUID" -t "$_TOKEN" | grep -E "(question_id|text|score_positive)" >&2
+    $_SHOW -i "$_UUID" -t "$_TOKEN" | grep -E "(event_question_id|text|score_positive)" | sed -E 's/\"event_question_id"/\n\"id\"/'>&2
     read -rp "Question id: " id
     echo "$id"
 }
