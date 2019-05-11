@@ -102,14 +102,14 @@ ask_for_number_of_votes() {
     read -rp "Number of vote(s): " num
 
     local currnum
+    local moretoken
     currnum=$(get_token_num "$_EVENT")
+    moretoken=$((num-currnum))
 
     # Fetch tokens to meet required num
-    if [[ "$num" -gt "$currnum" ]]; then
-        for ((i = 0; i < "$((num-currnum))"; i++)); do
-            echo "Fetching token $((i+1))"
-            $_NODE "$_FETCH" "$_URL" >> "$_EVENT"
-        done
+    if [[ "$moretoken" -gt 0 ]]; then
+        echo "Fetching $moretoken more token(s)" >&2
+        $_NODE "$_FETCH" "$_URL" "$moretoken" >> "$_EVENT"
     fi
 
     echo "$num"

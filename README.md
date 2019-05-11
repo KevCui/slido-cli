@@ -35,20 +35,29 @@ This script can fetch event uuid and user auth token of a Slido event.
 
 ```
 Usage:
-~$ node fetch-slido-token.js '<slido_question_list_url>'
+~$ node fetch-slido-token.js '<slido_question_list_url>' [<num>]
 ```
 
 For example, get user auth token of **GoT Last Season** Slido event:
 
 ```
 ~$ node fetch-slido-token.js 'https://app.sli.do/event/9duokmyd/live/questions'
-"4c349204-385b-49a7-a130-f91a2e243e49,5910aa95f67be997fd5448373263ee78352c0db8"
+4c349204-385b-49a7-a130-f91a2e243e49,5910aa95f67be997fd5448373263ee78352c0db8
 ```
 
 The output contains 2 parts:
 
 - Event uuid: `4c349204-385b-49a7-a130-f91a2e243e49`
 - User auth token: `5910aa95f67be997fd5448373263ee78352c0db8`
+
+Fetch multiple tokens, for example 3 tokens:
+
+```
+~$ node fetch-slido-token.js 'https://app.sli.do/event/9duokmyd/live/questions' 3
+4c349204-385b-49a7-a130-f91a2e243e49,cf051cb134718eadb3904ad87c63a23f210d33a7
+4c349204-385b-49a7-a130-f91a2e243e49,b0edbc05dbfc87b08df6d056feabeefd64e18e6f
+4c349204-385b-49a7-a130-f91a2e243e49,ad7e7218f669c3153237da9df10e3d694cc779cf
+```
 
 #### show-questionlist.sh
 
@@ -140,7 +149,7 @@ Slido doesn't limit IP address for generating user token. Technically, it's poss
 Generate 20 tokens and save them in `auth.conf` file:
 
 ```
-~$ for ((i = 0; i < 20; i++)); do echo $i; node fetch-slido-token.js 'https://app2.sli.do/event/<certain_event>/live/questions' >> auth.conf; done
+~$ node fetch-slido-token.js 'https://app2.sli.do/event/<_event__id>/live/questions' 20 >> auth.conf
 ```
 
 #### Get question id
