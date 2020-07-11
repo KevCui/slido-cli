@@ -2,7 +2,7 @@
 
 set_var() {
     # Set global variables
-    _FETCH="./fetch-slido-token.js"
+    _FETCH="./fetch-slido-token.sh"
     _SHOW="./show-questionlist.sh"
     _VOTE="./vote-question.sh"
     _SESSION="./.tmp.$(date +%s)"
@@ -59,7 +59,7 @@ tail_last_line() {
     file=$(get_event_from_url "$1")
     num=$(get_token_num "$file")
     if [[ "$num" -eq 0 ]]; then
-       $_NODE "$_FETCH" "$1" > "$file"
+       $_FETCH "$1" > "$file"
     fi
     tail -1 "$file"
 }
@@ -109,7 +109,7 @@ ask_for_number_of_votes() {
     # Fetch tokens to meet required num
     if [[ "$moretoken" -gt 0 ]]; then
         echo "Fetching $moretoken more token(s)" >&2
-        $_NODE "$_FETCH" "$_URL" "$moretoken" >> "$_EVENT"
+        $_FETCH "$_URL" "$moretoken" >> "$_EVENT"
     fi
 
     echo "$num"
