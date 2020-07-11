@@ -6,7 +6,7 @@ A CLI toolbox to fetch [Slido](https://www.sli.do/) questions, vote for a questi
 
 - [Dependency](#dependency)
 - [How to use](#how-to-use)
-  - [fetch-slido-token](#fetch-slido-token)
+  - [fetch-slido-token.sh](#fetch-slido-tokensh)
   - [show-questionlist.sh](#show-questionlistsh)
   - [vote-question.sh](#vote-questionsh)
 - [Manipulate voting](#manipulate-voting)
@@ -22,7 +22,7 @@ A CLI toolbox to fetch [Slido](https://www.sli.do/) questions, vote for a questi
 
 ## How to use
 
-### fetch-slido-token
+### fetch-slido-token.sh
 
 ```
 Usage:
