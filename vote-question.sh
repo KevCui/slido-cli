@@ -87,10 +87,17 @@ check_args() {
 vote_question() {
     # Vote question
     if [[ $_REVOKE_VOTE == true ]]; then
-        $_CURL -X POST "$_CURL_URL" -H "$_CURL_AUTH" -H 'cache-control: no-cache' -H 'Content-Type: application/json' -d '{"score":0}'
-
+        $_CURL -X POST "$_CURL_URL" \
+            -H "$_CURL_AUTH" -H 'cache-control: no-cache' \
+            -H 'Content-Type: application/json' \
+            -H 'X-Slidoapp-Version: SlidoParticipantApp/6.51.0 (web)' \
+            -d '{"score":0}'
     else
-        $_CURL -X POST "$_CURL_URL" -H "$_CURL_AUTH" -H 'cache-control: no-cache' -H 'Content-Type: application/json' -d '{"score":1}'
+        $_CURL -X POST "$_CURL_URL" \
+            -H "$_CURL_AUTH" -H 'cache-control: no-cache' \
+            -H 'Content-Type: application/json' \
+            -H 'X-Slidoapp-Version: SlidoParticipantApp/6.51.0 (web)' \
+            -d '{"score":1}'
     fi
 }
 
